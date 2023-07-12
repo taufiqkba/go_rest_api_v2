@@ -13,6 +13,10 @@ type CategoryControllerImpl struct {
 	CategoryService service.CategoryService
 }
 
+func NewCategoryControllerImpl(categoryService service.CategoryService) CategoryController {
+	return &CategoryControllerImpl{CategoryService: categoryService}
+}
+
 func (controller *CategoryControllerImpl) Create(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
 	//json decode
 	categoryCreateRequest := web.CategoryCreateRequest{}
