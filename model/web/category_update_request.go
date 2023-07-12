@@ -1,6 +1,6 @@
 package web
 
 type CategoryUpdateRequest struct {
-	Id   int64
+	Id   int
 	Name string
 }
