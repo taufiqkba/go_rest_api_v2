@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"database/sql"
+	"github.com/go-playground/validator"
 	"github.com/taufiqkba/go_rest_api_v2/helper"
 	"github.com/taufiqkba/go_rest_api_v2/model/domain"
 	"github.com/taufiqkba/go_rest_api_v2/model/web"
@@ -12,9 +13,14 @@ import (
 type CategoryServiceImpl struct {
 	repository repository.CategoryRepository
 	DB         *sql.DB
+	Validate   *validator.Validate
 }
 
 func (service *CategoryServiceImpl) Create(ctx context.Context, request web.CategoryCreateRequest) web.CategoryResponse {
+	//validate first
+	err := service.Validate.Struct(request)
+	helper.PanicIfError(err)
+
 	//set database transactional
 	tx, err := service.DB.Begin()
 	helper.PanicIfError(err)
@@ -31,6 +37,10 @@ func (service *CategoryServiceImpl) Create(ctx context.Context, request web.Cate
 }
 
 func (service *CategoryServiceImpl) Update(ctx context.Context, request web.CategoryUpdateRequest) web.CategoryResponse {
+	//validate first
+	err := service.Validate.Struct(request)
+	helper.PanicIfError(err)
+
 	//set database transactional
 	tx, err := service.DB.Begin()
 	helper.PanicIfError(err)
